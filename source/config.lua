@@ -1,0 +1,3 @@
+GameConfig = {
+	initialMouthAngle = 25
+}

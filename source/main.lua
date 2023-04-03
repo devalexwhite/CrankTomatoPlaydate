@@ -1,11 +1,3 @@
-
-
--- Name this file `main.lua`. Your game can use multiple source files if you wish
--- (use the `import "myFilename"` command), but the simplest games can be written
--- with just `main.lua`.
-
--- You'll want to import these in just about every project you'll work on.
-
 import "CoreLibs/object"
 import "CoreLibs/graphics"
 import "CoreLibs/sprites"
@@ -13,6 +5,7 @@ import "CoreLibs/timer"
 import "CoreLibs/animation"
 import "CoreLibs/ui"
 
+import "config"
 import "tomato"
 import "player"
 import "utils"
@@ -89,6 +82,19 @@ function cranckCheck()
 end
 
 function setup()
+	local inputHanlders = {
+		AButtonDown = function()
+			if gameState == "end" then
+				score = 0
+				timeLeft = 15
+				gameState = "running"
+				spawnTomato()
+			end
+		end
+	}
+	
+	playdate.inputHandlers.push(inputHanlders)
+	
 	local backgroundImage = gfx.image.new( "images/background" )
 	assert( backgroundImage )
 	
@@ -163,8 +169,8 @@ function playdate.update()
 		end
 		
 		
-		player.targetMouthAngle = (timeLeft / 30) * 25
-		player.mouthAngle = (timeLeft / 30) * 25
+		-- player.targetMouthAngle = (tipupuiimeLeft / 30) * 25
+		player.mouthAngle = (timeLeft /15) * GameConfig.initialMouthAngle
 		gfx.sprite:update()
 		gfx.drawText(string.format("*%ss*", timeLeft),360, 10)
 		if crankAlert then
@@ -189,6 +195,6 @@ end
 function playdate.cranked(change, accelChange)
 	hasCranked = true
 	crankAlert = false
-	player:cranged(change, accelChange)
+	player:Cranked(change, accelChange)
 end
 
